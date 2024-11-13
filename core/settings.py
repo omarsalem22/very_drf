@@ -39,7 +39,16 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "blog.apps.BlogConfig",
     "blog_api.apps.BlogApiConfig",
+    'users.apps.UsersConfig',
     "rest_framework",
+    #3rd partty
+    # 'rest_framework.authtoken',
+    # 'rest_auth',
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'rest_auth.registration',
+    
 ]
 
 MIDDLEWARE = [
@@ -50,6 +59,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # 'allauth.account.middleware.AccountMiddleware',
+
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -135,5 +146,18 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+        'DEFAULT_AUTHENTICATION_CLASSES':[ 
+            
+            'rest_framework_simplejwt.authentication.JWTAuthentication',
+        ]
+                                        
 }
+
+CORS_ALLOWED_ORIGINS=[
+    'http://localhost:3000',
+    'http://127.0.0.1:8000  '
+]
+
+
+AUTH_USER_MODEL='users.NewUser'
