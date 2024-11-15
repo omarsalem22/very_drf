@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     "rest_framework",
     "corsheaders",
+    "rest_framework_simplejwt.token_blacklist",
+    
 
     #3rd partty
     # 'rest_framework.authtoken',
@@ -64,6 +66,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
      "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
+    
     # 'allauth.account.middleware.AccountMiddleware',
 
 ]
@@ -178,8 +181,8 @@ CORS_ALLOW_METHODS = (
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": False,
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False,
 
     "ALGORITHM": "HS256",

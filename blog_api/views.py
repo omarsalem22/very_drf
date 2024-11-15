@@ -1,14 +1,31 @@
 from blog.models import Post, Category
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from .serializers import PostSerializer, CategorySeroalizer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated,AllowAny
+from django.shortcuts import get_object_or_404
+from rest_framework.permissions import SAFE_METHODS, IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated, AllowAny, BasePermission
 
-class PostList(generics.ListCreateAPIView):
 
-    permission_classes = [AllowAny]
+class PostUserPermission(BasePermission):
+    message = "Editing restrict to aithor only"
 
-    queryset = Post.postobjects.all()
+    def has_object_permission(self, request, view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+        return obj.author == request.user
+
+
+class PostList(viewsets.ModelViewSet):
+
+    # permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
+    
+    def get_object(self,queryset=None, **kwargs):
+        item=self.kwargs.get('pk')
+        print(item)
+        return get_object_or_404(Post,slug= item)
+ 
+    def get_queryset(self):
+        return Post.objects.all()
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
