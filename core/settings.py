@@ -44,16 +44,20 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "rest_framework_simplejwt.token_blacklist",
-    
+    'drf_yasg',
+    'django_filters',
 
-    #3rd partty
+
+
+
+    # 3rd partty
     # 'rest_framework.authtoken',
     # 'rest_auth',
     # 'django.contrib.sites',
     # 'allauth',
     # 'allauth.account',
     # 'rest_auth.registration',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -64,9 +68,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-     "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
-    
+
     # 'allauth.account.middleware.AccountMiddleware',
 
 ]
@@ -96,16 +100,15 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-  "default": {
-"NAME": "verydrf",
-"ENGINE": "django.db.backends.postgresql",
-"USER": "postgres",
-"PASSWORD": "123456789",
-'HOST':'localhost',
-'PORT': '5432',
+    "default": {
+        "NAME": "verydrf",
+        "ENGINE": "django.db.backends.postgresql",
+        "USER": "postgres",
+        "PASSWORD": "123456789",
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
-}
-
 
 
 # Password validation
@@ -150,16 +153,19 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
-        'DEFAULT_AUTHENTICATION_CLASSES':[ 
-            
-            'rest_framework_simplejwt.authentication.JWTAuthentication',
-        ]
-                                        
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+
 }
 
 CORS_ALLOWED_ORIGINS = [
@@ -167,7 +173,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://sub.example.com",
     "http://localhost:8080",
     "http://127.0.0.1:9000",
-     "http://localhost:3000"
+    "http://localhost:3000"
 ]
 CORS_ALLOW_METHODS = (
     "DELETE",
@@ -179,7 +185,7 @@ CORS_ALLOW_METHODS = (
 )
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=90),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -194,7 +200,7 @@ SIMPLE_JWT = {
     "JWK_URL": None,
     "LEEWAY": 0,
 
-    "AUTH_HEADER_TYPES": ("Bearer","JWT"),
+    "AUTH_HEADER_TYPES": ("Bearer", "JWT"),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
@@ -218,4 +224,4 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
-AUTH_USER_MODEL='users.NewUser'
+AUTH_USER_MODEL = 'users.NewUser'

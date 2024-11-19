@@ -1,11 +1,15 @@
 from django.urls import path
-from .views import PostList,CategoryList,PostDetail,CategortDetail
+from .views import PostList,CategoryList,CategortDetail,PostDetail,PostListDetailfilter
 from rest_framework.routers import DefaultRouter
 
-app_name="blog_api"
 
-router=DefaultRouter()
-router.register('',PostList,basename='postlist')
 
-urlpatterns = router.urls
+
+urlpatterns = [
+    path ("",PostList.as_view(),name='postlist'),
+    path ("posts/",PostDetail.as_view(),name='PostDetail'),
+    path("search/",PostListDetailfilter.as_view(),name="PostListDetailFilter")
+    
+    
+]
 

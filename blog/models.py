@@ -29,7 +29,7 @@ class Post(models.Model):
 
     category=models.ForeignKey(Category,
                                  on_delete=models.CASCADE,default=1)
-    title=models.CharField(max_length=200)
+    title=models.CharField(max_length=200 ,unique=True)
     excerpt=models.TextField(null=True)
     content=models.TextField()
     slug=models.SlugField(max_length=250,unique_for_date="published",blank=True)

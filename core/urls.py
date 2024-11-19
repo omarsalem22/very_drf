@@ -13,12 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include,re_path
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from rest_framework.schemas  import get_schema_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -30,5 +34,6 @@ urlpatterns = [
 
     path('apis/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('apis/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("docs",get_schema_view(title="BlogApi" ,description="API documentation", version="1.0.0"), name='api-docs')
 
 ]

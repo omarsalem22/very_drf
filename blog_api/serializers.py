@@ -10,7 +10,7 @@ class PostSerializer(serializers.ModelSerializer):
 class CategorySeroalizer(serializers.ModelSerializer):
 
      class Meta:
-      db_table = ''
+    
       model=Category
       fields=('name',)
            

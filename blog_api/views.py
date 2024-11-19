@@ -1,7 +1,11 @@
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
 from blog.models import Post, Category
 from rest_framework import generics, viewsets
 from .serializers import PostSerializer, CategorySeroalizer
 from django.shortcuts import get_object_or_404
+from rest_framework import filters
+
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated, AllowAny, BasePermission
 
 
@@ -14,26 +18,42 @@ class PostUserPermission(BasePermission):
         return obj.author == request.user
 
 
-class PostList(viewsets.ModelViewSet):
-
-    # permission_classes = [IsAuthenticated]
+class PostList(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
-    
-    def get_object(self,queryset=None, **kwargs):
-        item=self.kwargs.get('pk')
-        print(item)
-        return get_object_or_404(Post,slug= item)
- 
+
     def get_queryset(self):
-        return Post.objects.all()
+        user = self.request.user
+        return Post.objects.filter(author=user)
+
+class PostDetail(generics.ListAPIView ) :
+    
+    serializer_class=PostSerializer   
+    def get_queryset(self):
+        
+        slug=self.request.query_params.get('slug',None)
+        return Post.objects.filter(slug=slug)
+    
+class PostListDetailfilter(generics.ListAPIView):
+    queryset=Post.objects.all()
+    serializer_class=PostSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields=['^slug']
+    
+ 
 
 
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 
-    permission_classes = [AllowAny]
-    queryset = Post.postobjects.all()
+#     permission_classes = [AllowAny]
+#     queryset = Post.postobjects.all()
 
-    serializer_class = PostSerializer
+#     serializer_class = PostSerializer
+
+#     def get_queryset(self):
+
+#         slug = self.kwargs['pk']
+
+#         return Post.objects.get(slug=slug)
 
 
 class CategoryList(generics.ListCreateAPIView):
