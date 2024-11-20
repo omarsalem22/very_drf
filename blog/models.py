@@ -32,10 +32,10 @@ class Post(models.Model):
     title=models.CharField(max_length=200 ,unique=True)
     excerpt=models.TextField(null=True)
     content=models.TextField()
-    slug=models.SlugField(max_length=250,unique_for_date="published",blank=True)
-    published=models.DateTimeField(default=timezone.now)
+    slug=models.SlugField(max_length=250,blank=True )
+    published=models.DateTimeField(auto_now_add=True )
     author=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name='blog_posts')
-    status=models.CharField(max_length=10,choices=options,default=published)
+    status=models.CharField(max_length=10,choices=options , default='published')
     objects=models.Manager()
     postobjects=PostObjects() #custom
 

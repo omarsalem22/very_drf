@@ -182,8 +182,13 @@ CORS_ALLOW_METHODS = (
     "PATCH",
     "POST",
     "PUT",
+    
 )
-
+CORS_ALLOW_HEADERS = (
+    "content-type",
+    "authorization",
+    "x-csrftoken",
+)   
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=90),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
