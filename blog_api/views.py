@@ -5,6 +5,7 @@ from rest_framework import generics, viewsets
 from .serializers import PostSerializer, CategorySerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
+from rest_framework.response import Response
 
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated, AllowAny, BasePermission
 
@@ -49,11 +50,12 @@ class PostListDetailfilter(generics.ListAPIView):
 
 class CreatePost(generics.CreateAPIView):
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 
+    serializer_class = PostSerializer
 class DeletePost(generics.RetrieveDestroyAPIView):
 
     permission_classes = [IsAuthenticated]
@@ -69,10 +71,18 @@ class AdminDetail(generics.RetrieveAPIView):
 
 
 class EditPost(generics.UpdateAPIView):
-    
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+    # def update(self, request, *args, **kwargs):
+    #     instance = self.get_object()  # Get the post instance
+    #     serializer = self.get_serializer(instance, data=request.data, partial=True)
+        
+    #     if serializer.is_valid():
+    #         serializer.save()  # Save the updated instance
+    #         return Response(serializer.data)  # Return the updated data
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 #     permission_classes = [AllowAny]
