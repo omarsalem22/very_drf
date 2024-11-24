@@ -6,7 +6,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'author', 'category', 'slug', 'excerpt', 'content', 'status', 'published')
+        fields = ('id', 'title', 'author', 'category','image', 'slug', 'excerpt', 'content', 'status', 'published')
 
         extra_kwargs = {
             'slug': {'required': False},

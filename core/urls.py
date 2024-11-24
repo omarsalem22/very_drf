@@ -23,17 +23,18 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from rest_framework.schemas  import get_schema_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("blog.urls"), name="blog"),
     path("api/", include("blog_api.urls"), name="blog_api"),
     path("api/users/",include("users.urls"), name="users"),
-    
     path('api-auth/', include('rest_framework.urls')),
-
     path('apis/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('apis/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("docs",get_schema_view(title="BlogApi" ,description="API documentation", version="1.0.0"), name='api-docs')
 
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
